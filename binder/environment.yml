@@ -1,0 +1,15 @@
+name: comp
+channels:
+    - psi4
+    - conda-forge
+dependencies:
+    - psi4
+    - sympy
+    - scipy
+    - numpy
+    - matplotlib
+    - nglview
+    - jupyter
+    - mdtraj
+    - openmm
+    - openbabel
