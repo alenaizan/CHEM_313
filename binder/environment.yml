@@ -3,6 +3,7 @@ channels:
     - psi4
     - conda-forge
 dependencies:
+    - python=3.9
     - psi4
     - sympy
     - scipy
