@@ -1,16 +1,23 @@
 name: comp
 channels:
-    - psi4
     - conda-forge
 dependencies:
     - python=3.9
-    - psi4
-    - sympy
-    - scipy
-    - numpy
-    - matplotlib
-    - nglview
-    - jupyter
-    - mdtraj
-    - openmm
-    - openbabel
+    - psi4=1.9.1
+    # libint must be pinned: psi4 1.9.1 links libint2.so.2, but newer libint
+    # (>=2.13) ships an unversioned libint2.so and breaks `import psi4`.
+    - libint=2.9.0
+    - sympy=1.14
+    - scipy=1.13
+    - numpy=1.26
+    - matplotlib=3.9
+    - nglview=3.1.4
+    # ipympl + ipywidgets are required for `%matplotlib widget` interactive plots
+    # under JupyterLab 4 / Notebook 7 (the stack mybinder.org now serves).
+    - ipympl
+    - ipywidgets=8.1
+    - jupyterlab
+    - notebook
+    - mdtraj=1.10
+    - openmm=8.3
+    - openbabel=3.1

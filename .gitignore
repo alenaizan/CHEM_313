@@ -1,0 +1,14 @@
+.ipynb_checkpoints/
+__pycache__/
+
+# Psi4 / notebook run artifacts (regenerated when notebooks are executed)
+output.dat
+output.log
+timer.dat
+moxy.out
+ircprogress.log
+psi.*.clean
+*.cube
+*_cube_files/
+opt_traj.*.xyz
+irc_traj.*.xyz
