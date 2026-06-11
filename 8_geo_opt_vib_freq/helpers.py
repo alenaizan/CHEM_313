@@ -1,6 +1,21 @@
 import psi4
 import mdtraj as md
 import numpy as np
+import glob
+import os
+
+def latest_trajectory_file(pattern):
+    """Return the most recently written file matching `pattern`.
+
+    Psi4 1.9 writes optimization / IRC trajectories to files named with the
+    process id (e.g. "opt_traj.12345.xyz" or "irc_traj.12345.xyz") rather than
+    the older fixed "geoms.xyz" / "irc_forward.xyz" names, so we locate the file
+    by glob and pick the newest match.
+    """
+    files = glob.glob(pattern)
+    if not files:
+        raise FileNotFoundError("No trajectory file matching %r was found." % pattern)
+    return max(files, key=os.path.getmtime)
 
 def trajectory_from_coordinates(mol, geometries):
     natom = mol.natom()
