@@ -1,23 +1,28 @@
+# Master environment for every notebook in this repository.
+# Verified to solve on linux-64, osx-64, osx-arm64 and win-64.
+# Note: psi4 >= 1.11 requires macOS 11 or newer on both Intel and Apple silicon.
 name: comp
 channels:
     - conda-forge
 dependencies:
-    - python=3.9
-    - psi4=1.9.1
-    # libint must be pinned: psi4 1.9.1 links libint2.so.2, but newer libint
-    # (>=2.13) ships an unversioned libint2.so and breaks `import psi4`.
-    - libint=2.9.0
+    - python=3.12
+    - psi4=1.11
+    # psi4 1.11 pins the exact libint build it was compiled against, so the
+    # manual libint pin that older psi4 releases needed is no longer required.
+    - numpy=2.4
+    - scipy=1.18
     - sympy=1.14
-    - scipy=1.13
-    - numpy=1.26
-    - matplotlib=3.9
-    - nglview=3.1.4
+    # matplotlib-base is matplotlib without the Qt/PySide GUI backends. The
+    # notebooks only use the inline and ipympl (widget) backends, and dropping
+    # Qt saves a large download, especially on Windows.
+    - matplotlib-base=3.11
+    - nglview=4.0
     # ipympl + ipywidgets are required for `%matplotlib widget` interactive plots
     # under JupyterLab 4 / Notebook 7 (the stack mybinder.org now serves).
-    - ipympl
+    - ipympl=0.10
     - ipywidgets=8.1
-    - jupyterlab
-    - notebook
-    - mdtraj=1.10
-    - openmm=8.3
-    - openbabel=3.1
+    - jupyterlab=4.6
+    - notebook=7.6
+    - mdtraj=1.11
+    - openmm=8.6
+    - openbabel=3.2
