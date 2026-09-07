@@ -36,6 +36,17 @@ dependencies:
     # under JupyterLab 4 / Notebook 7 (the stack mybinder.org now serves).
     - ipympl=0.10
     - ipywidgets=8.1
+    # ipykernel must be pinned, not left to whatever the base image ships.
+    # nglview issues every comm message from a background thread
+    # (RemoteCallThread), and ipykernel tracks the parent message in a
+    # ContextVar that has no value outside the main thread's context. Older
+    # ipykernel calls `self._shell_parent.get()` directly, which raises
+    # LookupError, so nglview's loadFile never leaves the kernel: the NGL
+    # stage builds, reports loaded=True, and renders an empty viewer with
+    # n_components == 0. ipykernel >= 7.3 wraps that lookup in
+    # _get_shell_context_var, which falls back to the shell context and makes
+    # sends from user-launched threads work again.
+    - ipykernel=7.3
     - jupyterlab=4.6
     - notebook=7.6
     - mdtraj=1.11
