@@ -16,7 +16,22 @@ dependencies:
     # notebooks only use the inline and ipympl (widget) backends, and dropping
     # Qt saves a large download, especially on Windows.
     - matplotlib-base=3.11
-    - nglview=4.0
+    # nglview is held at 3.1.4. The 4.0.x releases ship a stale prebuilt
+    # frontend that registers itself with the widget registry as
+    # nglview-js-widgets 3.1.5 while the Python side asks for the semver
+    # range "4.0". Nothing matches, so the widget manager fails with
+    # "Failed to load model class 'NGLModel'" and no molecule renders.
+    # Upstream's git tree is self-consistent; only the released sdist that
+    # PyPI and conda-forge build from carries the stale bundle, so there is
+    # no fixed 4.0.x to move up to. 3.1.4 matches its own frontend exactly.
+    # Note that headless execution does NOT catch the 4.0.x breakage: it is
+    # purely browser-side, so `nbconvert --execute` passes while the reader
+    # sees nothing.
+    - nglview=3.1.4
+    # nglview 3.1.4 does `import pkg_resources` unconditionally at import
+    # time, and setuptools dropped pkg_resources after 80.x. Without this
+    # bound `import nglview` raises ModuleNotFoundError before any cell runs.
+    - setuptools<81
     # ipympl + ipywidgets are required for `%matplotlib widget` interactive plots
     # under JupyterLab 4 / Notebook 7 (the stack mybinder.org now serves).
     - ipympl=0.10
