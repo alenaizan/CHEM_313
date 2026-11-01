@@ -52,3 +52,20 @@ dependencies:
     - mdtraj=1.11
     - openmm=8.6
     - openbabel=3.2
+    # Molecular dynamics and free energy notes (11_molecular_dynamics).
+    - pdbfixer=1.12
+    # pymbar-core is pymbar without the JAX acceleration; the full pymbar
+    # package pulls in jax/jaxlib and prints warning banners on every import.
+    - pymbar-core=4.2
+    # The Open Force Field toolkit and Interchange parametrize small molecules
+    # with the Sage force field. The -base variants leave out AmberTools, which
+    # has no Windows build. Sage 2.3 assigns AM1-BCC charges with the NAGL
+    # graph neural network (openff-nagl + openff-nagl-models, which bring in a
+    # CPU build of PyTorch) instead of running AmberTools' sqm, so no AmberTools
+    # is needed on any platform. openmmforcefields and packmol are avoided for
+    # the same reason (they require AmberTools or have no Windows build).
+    - openff-toolkit-base=0.19
+    - openff-interchange-base=0.5
+    - openff-nagl-base=0.6
+    - openff-nagl-models=2026.09
+    - rdkit=2026.03
