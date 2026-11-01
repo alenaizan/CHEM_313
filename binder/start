@@ -1,0 +1,20 @@
+#!/bin/bash
+# Binder pods see all the cores of the host machine (for example, 48) but are only
+# allowed to use about one of them. OpenMM, OpenMP, and BLAS libraries start one
+# thread per visible core, and dozens of threads competing for a single core make
+# simulations extremely slow. Limit the number of threads to the CPU quota.
+threads=$(nproc)  # no CPU quota: use all the cores
+if [ -r /sys/fs/cgroup/cpu.max ]; then                     # cgroup v2
+    read quota period < /sys/fs/cgroup/cpu.max
+elif [ -r /sys/fs/cgroup/cpu/cpu.cfs_quota_us ]; then      # cgroup v1
+    quota=$(cat /sys/fs/cgroup/cpu/cpu.cfs_quota_us)
+    period=$(cat /sys/fs/cgroup/cpu/cpu.cfs_period_us)
+fi
+if [[ "$quota" =~ ^[0-9]+$ ]] && [ "$quota" -gt 0 ]; then
+    threads=$(( (quota + period - 1) / period ))
+fi
+export OPENMM_CPU_THREADS=$threads
+export OMP_NUM_THREADS=$threads
+export OPENBLAS_NUM_THREADS=$threads
+export MKL_NUM_THREADS=$threads
+exec "$@"

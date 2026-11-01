@@ -12,8 +12,3 @@ psi.*.clean
 *_cube_files/
 opt_traj.*.xyz
 irc_traj.*.xyz
-
-# Molecular dynamics notes: files written when the notebooks are executed
-11_molecular_dynamics/data/trpcage_equilibration.csv
-11_molecular_dynamics/data/trpcage_equilibration.xtc
-11_molecular_dynamics/data/paracetamol_water.*
